@@ -98,10 +98,10 @@ downloadFile() {
       exit 1
     fi
   elif type "wget" >/dev/null; then
-    wget -q -O "$BINDIR/$BINARY_NAME" "$DOWNLOAD_URL"
+    wget -q -O "$BINDIR/$PROJECT_NAME" "$DOWNLOAD_URL"
   fi
 
-  chmod +x "$BINDIR/$BINARY_NAME"
+  chmod +x "$BINDIR/$PROJECT_NAME"
 
 }
 
