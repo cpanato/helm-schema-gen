@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/karuppiah7890/go-jsonschema-generator"
 	"github.com/spf13/cobra"
@@ -23,7 +23,7 @@ func NewGenerateCmd() *cobra.Command {
 
 			valuesFilePath := args[0]
 			values := make(map[string]interface{})
-			valuesFileData, err := ioutil.ReadFile(valuesFilePath)
+			valuesFileData, err := os.ReadFile(valuesFilePath)
 			if err != nil {
 				return fmt.Errorf("failed to read file %q: %v", valuesFilePath, err)
 			}
