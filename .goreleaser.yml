@@ -2,7 +2,6 @@ project_name: helm-schema-gen
 
 env:
   - GO111MODULE=on
-  - COSIGN_EXPERIMENTAL=true
 
 sboms:
 - artifacts: binary
@@ -30,7 +29,7 @@ archives:
 signs:
 - cmd: cosign
   env:
-  - COSIGN_EXPERIMENTAL=1
+  - COSIGN_EXPERIMENTAL=true
   certificate: '${artifact}.pem'
   signature: '${artifact}.sig'
   args:
