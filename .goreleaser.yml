@@ -3,11 +3,21 @@ project_name: helm-schema-gen
 env:
   - GO111MODULE=on
 
+# Prevents parallel builds from stepping on each others toes downloading modules
+before:
+  hooks:
+  - go mod tidy
+
+gomod:
+  proxy: true
+
 sboms:
 - artifacts: binary
 
 builds:
-  - env:
+  - binary: schema-gen-{{ .Os }}-{{ .Arch }}
+    no_unique_dist_dir: true
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -22,9 +32,9 @@ builds:
         goarch: arm
 
 archives:
-  - format_overrides:
-      - goos: windows
-        format: zip
+- format: binary
+  name_template: "{{ .Binary }}"
+  allow_different_binary_count: true
 
 signs:
 - cmd: cosign
@@ -37,11 +47,11 @@ signs:
     - '--output-certificate=${certificate}'
     - '--output-signature=${signature}'
     - '${artifact}'
-  artifacts: archive
+  artifacts: binary
   output: true
 
 checksum:
-  name_template: "{{ .ProjectName }}_checksums.txt"
+  name_template: "checksums.txt"
 
 snapshot:
   name_template: SNAPSHOT-{{ .ShortCommit }}
