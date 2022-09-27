@@ -15,7 +15,7 @@ sboms:
 - artifacts: binary
 
 builds:
-  - binary: schema-gen-{{ .Os }}-{{ .Arch }}
+  - binary: helm-schema-gen-{{ .Os }}-{{ .Arch }}
     no_unique_dist_dir: true
     env:
       - CGO_ENABLED=0

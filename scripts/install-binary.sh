@@ -1,12 +1,9 @@
 echo "Installing helm schema-gen plugin"
 
 PROJECT_NAME="helm-schema-gen"
-BINARY_NAME="schema-gen"
 PROJECT_ORG="${PROJECT_ORG:-cpanato}"
 PROJECT_GH="$PROJECT_ORG/$PROJECT_NAME"
 export GREP_COLOR="never"
-
-HELM_MAJOR_VERSION=$("${HELM_BIN}" version --client --short | awk -F '.' '{print $1}')
 
 : ${HELM_PLUGIN_DIR:="$("${HELM_BIN}" home --debug=false)/plugins/helm-diff"}
 
@@ -72,7 +69,7 @@ getDownloadURL() {
   #version=$(git -C "$HELM_PLUGIN_DIR" describe --tags --exact-match 2>/dev/null || :)
   version="$(cat $HELM_PLUGIN_DIR/plugin.yaml | grep "version" | cut -d '"' -f 2)"
   if [ -n "$version" ]; then
-    DOWNLOAD_URL="https://github.com/$PROJECT_GH/releases/download/v$version/$BINARY_NAME-$OS-$ARCH"
+    DOWNLOAD_URL="https://github.com/$PROJECT_GH/releases/download/v$version/$PROJECT_NAME-$OS-$ARCH"
   else
     # Use the GitHub API to find the download url for this project.
     url="https://api.github.com/repos/$PROJECT_GH/releases/latest"
@@ -122,7 +119,6 @@ testVersion() {
   "${HELM_PLUGIN_DIR}/bin/$PROJECT_NAME" version
   set -e
 }
-
 
 # Execution
 
