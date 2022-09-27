@@ -5,6 +5,10 @@ on:
     tags:
       - "*"
 
+permissions:
+  contents: write # needed to write releases
+  id-token: write # needed for keyless signing
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
