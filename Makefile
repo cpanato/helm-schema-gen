@@ -5,15 +5,23 @@ BIN_NAME := helm-schema-gen
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-25s\033[0m %s\n", $$1, $$2}'
 
+FORCE: ;
+
 .PHONY: deps
 deps: ## Download go dependencies
 	@echo Downloading dependencies
 	@go mod download
 
-.PHONY: build
-build: deps ## Build the binary
+.PHONY: clean
+clean-build: ## Removes the bin folder
+	rm -rf bin
+
+bin/%: FORCE
 	@echo Building binary
-	@go build -o bin/$(BIN_NAME) .
+	go build -o $@ .
+
+.PHONY: build
+build: deps bin/$(BIN_NAME) ## Build the binary
 
 .PHONY: lint
 lint: ## use goimports to lint
