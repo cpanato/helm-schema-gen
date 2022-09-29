@@ -42,3 +42,7 @@ coverage-html: coverage ## Output code coverage as HTML
 .PHONY: outdated
 outdated: ## Checks for outdated dependencies
 	go list -u -m -json all | go-mod-outdated -update
+
+.PHONY: install
+install: build ## Installs the plugin from GitHub using version defined in plugin.yaml
+	helm plugin install .
