@@ -16,9 +16,9 @@ deps: ## Download go dependencies
 clean-build: ## Removes the bin folder
 	rm -rf bin
 
-bin/%: FORCE
+bin/%: cmd/% FORCE
 	@echo Building binary
-	go build -o $@ .
+	go build -o $@ ./$<
 
 .PHONY: build
 build: deps bin/$(BIN_NAME) ## Build the binary

@@ -12,7 +12,8 @@ sboms:
 - artifacts: binary
 
 builds:
-  - binary: helm-schema-gen-{{ .Os }}-{{ .Arch }}
+  - main: ./cmd/helm-schema-gen
+    binary: helm-schema-gen-{{ .Os }}-{{ .Arch }}
     no_unique_dist_dir: true
     env:
       - CGO_ENABLED=0

@@ -1,4 +1,4 @@
 .idea
-helm-schema-gen
+./helm-schema-gen
 dist/**
 bin/
