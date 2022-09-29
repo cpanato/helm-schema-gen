@@ -1,3 +1,4 @@
 .idea
 helm-schema-gen
 dist/**
+bin/
