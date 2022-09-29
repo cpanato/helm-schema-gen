@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-func BenchmarkRootCommandExecution(b *testing.B) {
+func BenchmarkGenerateCommandExecution(b *testing.B) {
+	cmd := NewGenerateCmd()
 	for i := 0; i < b.N; i++ {
-		testr := NewGenerateCmd()
-		err := testr.RunE(nil, []string{filepath.Join("..", "testdata", "values.yaml")})
+		err := cmd.RunE(nil, []string{filepath.Join("..", "testdata", "values.yaml")})
 		if err != nil {
 			b.Fatal(err)
 		}
