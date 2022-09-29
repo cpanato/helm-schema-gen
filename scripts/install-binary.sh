@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 echo "Installing helm schema-gen plugin"
 
 PROJECT_NAME="helm-schema-gen"
@@ -5,7 +7,7 @@ PROJECT_ORG="${PROJECT_ORG:-cpanato}"
 PROJECT_GH="$PROJECT_ORG/$PROJECT_NAME"
 export GREP_COLOR="never"
 
-: ${HELM_PLUGIN_DIR:="$("${HELM_BIN}" home --debug=false)/plugins/helm-diff"}
+: "${HELM_PLUGIN_DIR:="$("${HELM_BIN}" home --debug=false)/plugins/helm-diff"}"
 
 # Convert the HELM_PLUGIN_DIR to unix if cygpath is
 # available. This is the case when using MSYS2 or Cygwin
@@ -13,7 +15,7 @@ export GREP_COLOR="never"
 # need a Unix path
 
 if type cygpath >/dev/null 2>&1; then
-  HELM_PLUGIN_DIR=$(cygpath -u $HELM_PLUGIN_DIR)
+  HELM_PLUGIN_DIR=$(cygpath -u "$HELM_PLUGIN_DIR")
 fi
 
 if [ "$SKIP_BIN_INSTALL" = "1" ]; then
@@ -67,16 +69,16 @@ verifySupported() {
 # getDownloadURL checks the latest available version.
 getDownloadURL() {
   #version=$(git -C "$HELM_PLUGIN_DIR" describe --tags --exact-match 2>/dev/null || :)
-  version="$(cat $HELM_PLUGIN_DIR/plugin.yaml | grep "version" | cut -d '"' -f 2)"
+  version="$(grep "version" "$HELM_PLUGIN_DIR/plugin.yaml" | cut -d '"' -f 2)"
   if [ -n "$version" ]; then
     DOWNLOAD_URL="https://github.com/$PROJECT_GH/releases/download/v$version/$PROJECT_NAME-$OS-$ARCH"
   else
     # Use the GitHub API to find the download url for this project.
     url="https://api.github.com/repos/$PROJECT_GH/releases/latest"
     if type "curl" >/dev/null; then
-      DOWNLOAD_URL=$(curl -s $url | grep $OS-$ARCH\" | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
+      DOWNLOAD_URL=$(curl -s "$url" | grep $OS-$ARCH\" | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
     elif type "wget" >/dev/null; then
-      DOWNLOAD_URL=$(wget -q -O - $url | grep $OS-$ARCH\" | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
+      DOWNLOAD_URL=$(wget -q -O - "$url" | grep $OS-$ARCH\" | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
     fi
   fi
 
@@ -91,7 +93,7 @@ downloadFile() {
   echo "Downloading $DOWNLOAD_URL"
   if type "curl" >/dev/null; then
     HTTP_CODE=$(curl -sL --write-out "%{http_code}" "$DOWNLOAD_URL" --output "$BINDIR/$PROJECT_NAME")
-    if [ ${HTTP_CODE} -ne 200 ]; then
+    if [ "${HTTP_CODE}" -ne 200 ]; then
       exit 1
     fi
   elif type "wget" >/dev/null; then
@@ -107,7 +109,7 @@ fail_trap() {
   result=$?
   if [ "$result" != "0" ]; then
     echo "Failed to install $PROJECT_NAME"
-    printf "\tFor support, go to https://github.com/$PROJECT_GH.\n"
+    printf '\tFor support, go to https://github.com/%s.\n' "$PROJECT_GH"
   fi
   exit $result
 }

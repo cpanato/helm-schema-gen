@@ -1,4 +1,4 @@
-name: goreleaser
+name: Release
 
 on:
   push:
@@ -17,6 +17,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Check plugin version matches tag
+        run: |
+          plugin_version="$(grep version plugin.yaml  | cut -d '"' -f 2)"
+          version_line="$(grep -n "${plugin_version}" plugin.yaml | cut -d: -f1)"
+          tag=${GITHUB_REF##*/}
+          [ "${tag##v}" != "${plugin_version}" ] && {
+            error_title="Version was not updated in plugin.yaml"
+            error_message="Got: ${plugin_version}, Require: ${tag##v} for ${tag}"
+            echo "::error file=plugin.yaml,line=${version_line},endLine=${version_line},title=${error_title}::${error_message}" >&2
+            exit 1
+          }
 
       - name: Set up Go
         uses: actions/setup-go@v3
