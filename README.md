@@ -1,6 +1,6 @@
 # helm schema gen plugin [ CURRENTLY NOT MAINTAINED ]
 
-![](https://github.com/karuppiah7890/helm-schema-gen/workflows/goreleaser/badge.svg)
+![Goreleaser status Badge](https://github.com/karuppiah7890/helm-schema-gen/workflows/goreleaser/badge.svg)
 
 So that you don't have to write values.schema.json by hand from scratch for your Helm 3 charts
 
@@ -19,13 +19,12 @@ Nothing fancy about the code, all the heavy lifting is done by:
 - [cobra](https://github.com/spf13/cobra) - for CLI stuff
 - [The Go stdlib](https://golang.org/pkg/) - for everything else
 
-
 ## Install
 
 The plugin works with both Helm v2 and v3 versions as it's agnostic to the Helm
 binary version
 
-```
+```shell
 $ helm plugin install https://github.com/karuppiah7890/helm-schema-gen.git
 karuppiah7890/helm-schema-gen info checking GitHub for tag '0.0.4'
 karuppiah7890/helm-schema-gen info found version: 0.0.4 for 0.0.4/Darwin/x86_64
@@ -45,7 +44,7 @@ The plugin works with both Helm v2 and v3 versions
 
 Let's take a sample `values.yaml` like the below
 
-```
+```shell
 replicaCount: 1
 
 image:
@@ -113,7 +112,7 @@ affinity: {}
 Now if you use the plugin and pass the `values.yaml` to it, you will
 get the JSON Schema for the `values.yaml`
 
-```
+```shell
 $ helm schema-gen values.yaml
 {
     "$schema": "http://json-schema.org/schema#",
@@ -216,13 +215,13 @@ $ helm schema-gen values.yaml
 
 You can save it to a file like this
 
-```
-$ helm schema-gen values.yaml > values.schema.json
+```shell
+helm schema-gen values.yaml > values.schema.json
 ```
 
 ## Issues? Feature Requests? Proposals? Feedback?
 
-Note: I currently don't have the bandwidth to reply to issues, write code and review PRs. For now I recommend forking the repo and making changes and using the fork 😅
+> **Note**: I currently don't have the bandwidth to reply to issues, write code and review PRs. For now I recommend forking the repo and making changes and using the fork 😅
 
 Put them all in [GitHub issues](https://github.com/karuppiah7890/helm-schema-gen/issues) 😁
 I value every feedback. I really want to make sure that my tools help people and does not
